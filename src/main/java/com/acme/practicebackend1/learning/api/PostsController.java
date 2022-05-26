@@ -2,7 +2,13 @@ package com.acme.practicebackend1.learning.api;
 
 import com.acme.practicebackend1.learning.domain.model.entity.Post;
 import com.acme.practicebackend1.learning.domain.service.PostService;
+import com.acme.practicebackend1.learning.mapping.PostMapper;
+import com.acme.practicebackend1.learning.resource.CreatePostResource;
+import com.acme.practicebackend1.learning.resource.PostResource;
+import com.acme.practicebackend1.learning.resource.UpdatePostResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +20,34 @@ import java.util.List;
 public class PostsController {
 
     @Autowired
-    private PostService postService;
+    private final PostService postService;
+
+    private final PostMapper mapper;
+
+    public PostsController(PostService postService, PostMapper mapper) {
+        this.postService = postService;
+        this.mapper = mapper;
+    }
 
 
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.getAll();
+    public Page<PostResource> getAllPosts(Pageable pageable) {
+        return mapper.modelListToPage(postService.getAll(), pageable);
     }
 
+    @GetMapping("{postId}")
+    public PostResource getPostById(@PathVariable Long postId) {
+        return mapper.toResource(postService.getById(postId));
+    }
     @PostMapping
-    public Post createPost(@Valid @RequestBody Post request) {
-        return postService.create(request);
+    public PostResource createPost(@Valid @RequestBody CreatePostResource request) {
+        return mapper.toResource(postService.create(mapper.toModel(request)));
     }
 
     @PutMapping("{postId}")
-    public Post updatePost(@PathVariable Long postId, @Valid @RequestBody Post request) {
-        return  postService.update(postId, request);
+    public PostResource updatePost(@PathVariable Long postId, @Valid @RequestBody UpdatePostResource request) {
+        return  mapper.toResource(postService.update(postId, mapper.toModel(request)))
+                ;
     }
 
     @DeleteMapping("{postId}")

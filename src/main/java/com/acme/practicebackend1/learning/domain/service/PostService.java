@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface PostService {
     List<Post> getAll();
     Page<Post> getAll(Pageable pageable);
+
+    Post getById(Long postId);
     Post create(Post post);
     Post update(Long postId, Post request);
     ResponseEntity<?> delete(Long postId);

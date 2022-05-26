@@ -30,6 +30,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post getById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", postId));
+    }
+
+    @Override
     public Post create(Post post) {
         return postRepository.save(post);
     }
