@@ -10,29 +10,29 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/posts")
 public class PostsController {
 
     @Autowired
     private PostService postService;
 
 
-    @GetMapping("/posts")
+    @GetMapping
     public List<Post> getAllPosts() {
         return postService.getAll();
     }
 
-    @PostMapping("/posts")
+    @PostMapping
     public Post createPost(@Valid @RequestBody Post request) {
         return postService.create(request);
     }
 
-    @PutMapping("/posts/{postId}")
+    @PutMapping("{postId}")
     public Post updatePost(@PathVariable Long postId, @Valid @RequestBody Post request) {
         return  postService.update(postId, request);
     }
 
-    @DeleteMapping("posts/{postId}")
+    @DeleteMapping("{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         return postService.delete(postId);
     }
