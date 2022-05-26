@@ -40,12 +40,12 @@ public class PostsController {
         return mapper.toResource(postService.getById(postId));
     }
     @PostMapping
-    public PostResource createPost(@Valid @RequestBody CreatePostResource request) {
+    public PostResource createPost(@RequestBody CreatePostResource request) {
         return mapper.toResource(postService.create(mapper.toModel(request)));
     }
 
     @PutMapping("{postId}")
-    public PostResource updatePost(@PathVariable Long postId, @Valid @RequestBody UpdatePostResource request) {
+    public PostResource updatePost(@PathVariable Long postId, @RequestBody UpdatePostResource request) {
         return  mapper.toResource(postService.update(postId, mapper.toModel(request)))
                 ;
     }
