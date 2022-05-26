@@ -9,4 +9,9 @@ public class MappingConfiguration {
     public PostMapper postMapper() {
         return new PostMapper();
     }
+
+    @Bean
+    public CommentMapper commentMapper() {
+        return new CommentMapper();
+    }
 }

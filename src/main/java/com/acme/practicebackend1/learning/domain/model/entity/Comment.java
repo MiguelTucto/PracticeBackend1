@@ -1,8 +1,7 @@
 package com.acme.practicebackend1.learning.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +9,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@With
 @Table(name = "comments")
 public class Comment {
     @Id
