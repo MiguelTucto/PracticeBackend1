@@ -3,13 +3,13 @@ package com.acme.practicebackend1.learning.api;
 import com.acme.practicebackend1.learning.domain.service.CommentService;
 import com.acme.practicebackend1.learning.mapping.CommentMapper;
 import com.acme.practicebackend1.learning.resource.CommentResource;
+import com.acme.practicebackend1.learning.resource.CreateCommentResource;
+import com.acme.practicebackend1.learning.resource.UpdateCommentResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/posts/{postId}/comments")
@@ -28,5 +28,18 @@ public class CommentsController {
         return mapper.modelListToPage(commentService.getAllByPostId(postId), pageable);
     }
 
+    @PostMapping
+    public CommentResource createComment(@PathVariable Long postId, @RequestBody CreateCommentResource request) {
+        return mapper.toResource(commentService.create(postId, mapper.toModel(request)));
+    }
 
+    @PutMapping("{commentId}")
+    public CommentResource updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody UpdateCommentResource request) {
+        return mapper.toResource(commentService.update(postId, commentId, mapper.toModel(request)));
+    }
+
+    @DeleteMapping("{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        return commentService.delete(postId, commentId);
+    }
 }
