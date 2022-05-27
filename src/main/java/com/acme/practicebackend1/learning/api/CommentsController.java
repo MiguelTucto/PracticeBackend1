@@ -5,13 +5,15 @@ import com.acme.practicebackend1.learning.mapping.CommentMapper;
 import com.acme.practicebackend1.learning.resource.CommentResource;
 import com.acme.practicebackend1.learning.resource.CreateCommentResource;
 import com.acme.practicebackend1.learning.resource.UpdateCommentResource;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Tag(name = "Posts") // Con esto colocamostodo junto con el Post
+@RestController      //  pese a que es Comment
 @RequestMapping("/api/v1/posts/{postId}/comments")
 public class CommentsController {
 
